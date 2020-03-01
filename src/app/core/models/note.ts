@@ -16,6 +16,8 @@ export class Note implements INote {
   currency: Currency;
   heightMm: number;
   widthMm: number;
+  depthMm: 0.11; // from usd
+  weight: 0.0012; // from usd
 
   constructor(
     {
@@ -43,11 +45,15 @@ export class Note implements INote {
     return this.widthMm / 1000;
   }
 
+  get depth(): number {
+    return this.depthMm / 1000;
+  }
+
   get area(): number {
     return this.height * this.width;
   }
 
-  getM2Price(): number {
+  get getM2Price(): number {
     return 1 / this.area * this.nominal;
   }
 }
