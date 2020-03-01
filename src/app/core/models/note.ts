@@ -16,4 +16,38 @@ export class Note implements INote {
   currency: Currency;
   heightMm: number;
   widthMm: number;
+
+  constructor(
+    {
+      imgFrontUrl,
+      imgBackUrl,
+      nominal,
+      currency,
+      heightMm,
+      widthMm
+    }: INote) {
+    this.imgFrontUrl = imgFrontUrl;
+    this.imgBackUrl = imgBackUrl;
+    this.nominal = nominal;
+    this.currency = currency;
+    this.heightMm = heightMm;
+    this.widthMm = widthMm;
+  }
+
+
+  get height(): number {
+    return this.heightMm / 1000;
+  }
+
+  get width(): number {
+    return this.widthMm / 1000;
+  }
+
+  get area(): number {
+    return this.height * this.width;
+  }
+
+  getM2Price(): number {
+    return 1 / this.area * this.nominal;
+  }
 }
