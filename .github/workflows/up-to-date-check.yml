@@ -1,14 +1,17 @@
 name: Check branch HEAD
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   check-head:
     name: Check head
     runs-on: ubuntu-latest
     steps:
-      - name: Print
+      #start:git-checkout
+      - name: Git Checkout
         uses: actions/checkout@v2
+      #end:git-checkout
+      - name: Print
         run: |
           echo "This branch ultimate commit"
           git rev-parse HEAD
@@ -16,3 +19,4 @@ jobs:
           git rev-parse HEAD^1
           echo "Devepment branch ultimate commit"
           git rev-parse HEAD
+        shell: bash
