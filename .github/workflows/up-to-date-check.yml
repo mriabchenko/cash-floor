@@ -4,4 +4,8 @@ on: [push, pull_request]
 
 jobs:
   check-head:
-    run: echo ${{github.head_ref}}
+    name: Check head
+    runs-on: ubuntu-latest
+    steps:
+      - name: Console head_ref
+        run: echo ${{github.head_ref}}
