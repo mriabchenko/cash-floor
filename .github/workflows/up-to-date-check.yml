@@ -1,0 +1,7 @@
+name: Check branch HEAD
+
+on: [push]
+
+jobs:
+  check-head:
+    run: echo ${{github.head_ref}}
