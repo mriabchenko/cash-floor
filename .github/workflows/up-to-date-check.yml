@@ -1,0 +1,38 @@
+name: Check if PR branch is up to date
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  check-if-pr-branch-if-up-to-date:
+    name: Check if pr branch if up to date
+    runs-on: ubuntu-latest
+    steps:
+      - name: Init git checkout for pr branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{github.head_ref}}
+          fetch-depth: 2
+      - name: Store pr branch penultimate commit hash
+        run: echo "PR_BRANCH_PENULTIMATE_COMMIT_HASH=$(git rev-parse --short HEAD^1)" >> $GITHUB_ENV
+      - name: Print pr branch penultimate commit hash
+        run: echo $PR_BRANCH_PENULTIMATE_COMMIT_HASH
+      - name: Init git checkout for base branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{github.base_ref}}
+      - name: Store base branch ultimate commit hash
+        run: echo "BASE_BRANCH_ULTIMATE_COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      - name: Print base branch ultimate commit hash
+        run: echo $BASE_BRANCH_ULTIMATE_COMMIT_HASH
+      - name: Fail pipeline if pr branch in not up to date
+        run: |
+          if [ $PR_BRANCH_PENULTIMATE_COMMIT_HASH == $BASE_BRANCH_ULTIMATE_COMMIT_HASH ]; then
+            echo "${{github.head_ref}} branch is up to date with ${{github.base_ref}} branch"
+            exit 0
+          else
+            echo "${{github.head_ref}} branch is not up to date with ${{github.base_ref}} branch"
+            exit 1
+          fi
