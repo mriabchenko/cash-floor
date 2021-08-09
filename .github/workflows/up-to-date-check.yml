@@ -6,14 +6,13 @@ on:
       - development
 
 jobs:
-  check-branches-heads:
-    name: Store commit hashes
+  check-if-pr-branch-if-up-to-date:
+    name: Check if PR branch if up to date
     runs-on: ubuntu-latest
     steps:
       - name: Init git checkout for PR branch
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.ref }}
           fetch-depth: 2
       - name: Store PR branch penultimate commit hash
         run: echo "PR_BRANCH_PENULTIMATE_COMMIT=$(git rev-parse --short HEAD^1)" >> $GITHUB_ENV
