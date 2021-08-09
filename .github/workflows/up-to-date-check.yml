@@ -3,7 +3,7 @@ name: Check if PR branch is up to date
 on:
   pull_request:
     branches:
-      - development
+      - develop
 
 jobs:
   check-if-pr-branch-if-up-to-date:
@@ -18,20 +18,20 @@ jobs:
         run: echo "PR_BRANCH_PENULTIMATE_COMMIT=$(git rev-parse --short HEAD^1)" >> $GITHUB_ENV
       - name: Print PR branch penultimate commit hash
         run: echo $PR_BRANCH_PENULTIMATE_COMMIT
-      - name: Init git checkout for development branch
+      - name: Init git checkout for develop branch
         uses: actions/checkout@v2
         with:
-          ref: development
-      - name: Store development branch ultimate commit hash
+          ref: develop
+      - name: Store develop branch ultimate commit hash
         run: echo "DEVELOPMENT_BRANCH_ULTIMATE_COMMIT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-      - name: Print development branch ultimate commit hash
+      - name: Print develop branch ultimate commit hash
         run: echo $DEVELOPMENT_BRANCH_ULTIMATE_COMMIT
       - name: Fail pipeline if PR branch in not up to date
         run: |
           if [ $PR_BRANCH_PENULTIMATE_COMMIT == $DEVELOPMENT_BRANCH_ULTIMATE_COMMIT ]; then
-            echo "PR branch is up to date with development"
+            echo "PR branch is up to date with develop"
             exit 0
           else
-            echo "PR branch is not up to date with development"
+            echo "PR branch is not up to date with develop"
             exit 1
           fi
