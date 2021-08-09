@@ -30,9 +30,12 @@ jobs:
       - name: Fail pipeline if pr branch in not up to date
         run: |
           if [ $PR_BRANCH_PENULTIMATE_COMMIT_HASH == $BASE_BRANCH_ULTIMATE_COMMIT_HASH ]; then
-            echo "${{github.head_ref}} branch is up to date with ${{github.base_ref}} branch"
+            echo "${{github.head_ref}} branch is up to date with ${{github.base_ref}} branch."
             exit 0
           else
-            echo "${{github.head_ref}} branch is not up to date with ${{github.base_ref}} branch"
+            echo "
+              ${{github.head_ref}} branch is not up to date with ${{github.base_ref}} branch!
+              Please pull latest updates from ${{github.base_ref}} and perform interactive squash rebase ${{github.head_ref}} on ${{github.base_ref}}
+            "
             exit 1
           fi
